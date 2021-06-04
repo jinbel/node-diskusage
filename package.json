@@ -5,9 +5,22 @@
   "main": "index.js",
   "typings": "index.d.ts",
   "gypfile": true,
+  "binary": {
+    "module_name": "diskusage",
+    "module_path": "./lib/binding/napi-v{napi_build_version}-{platform}-{arch}",
+    "host": "https://file.gtdji.com",
+    "remote_path": "./{name}/v{version}/{toolset}/",
+    "package_name": "napi-v{napi_build_version}-{platform}-{arch}.tar.gz",
+    "napi_versions": [3]
+  },
+  "scripts": {
+    "install": "node-pre-gyp install --build-from-source"
+  },
   "dependencies": {
     "es6-promise": "^4.2.5",
-    "nan": "^2.14.0"
+    "nan": "^2.14.0",
+    "node-addon-api": "^3.2.1",
+    "node-pre-gyp": "^0.17.0"
   },
   "devDependencies": {
     "eslint": "^6.0.1"

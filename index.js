@@ -1,4 +1,4 @@
-var native = require("./build/Release/diskusage.node");
+var native = require("./lib/diskusage-binding");
 var promise = typeof Promise !== "undefined" ? Promise : require("es6-promise").Promise;
 
 exports.check = function(path, callback) {

@@ -1,8 +1,12 @@
 {
   'targets': [
     {
-      'target_name': 'diskusage',
-      'include_dirs': [ '<!(node -e "require(\'nan\')")' ],
+      'target_name': '<(module_name)',
+      'include_dirs': [ 
+        # "<!(node -e \"require('nan')\")",
+        "<!@(node -p \"require('node-addon-api').include\")"
+      ],
+      'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
       'sources': [
         'src/main.cpp',
         'src/diskusage.h',
@@ -35,11 +39,24 @@
           'cflags_cc!': [ '-fno-exceptions' ]
         }],
         ['OS=="mac"', {
+          'cflags+': ['-fvisibility=hidden'],
           'xcode_settings': {
             'GCC_ENABLE_CPP_EXCEPTIONS': 'YES',
-            'CLANG_CXX_LIBRARY': 'libc++'
+            'CLANG_CXX_LIBRARY': 'libc++',
+            'GCC_SYMBOLS_PRIVATE_EXTERN': 'YES', # -fvisibility=hidden
           }
         }]
+      ]
+    },
+    {
+      "target_name": "action_after_build",
+      "type": "none",
+      "dependencies": [ "<(module_name)" ],
+      "copies": [
+          {
+            "files": [ "<(PRODUCT_DIR)/<(module_name).node" ],
+            "destination": "<(module_path)"
+          }
       ]
     }
   ]

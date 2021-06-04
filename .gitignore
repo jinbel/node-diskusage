@@ -11,6 +11,10 @@ pids
 logs
 results
 
+lib/binding
+.vscode
+
 npm-debug.log
 node_modules
 build
+build-*
